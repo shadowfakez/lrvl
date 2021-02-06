@@ -44,11 +44,17 @@
                                     <label for="exampleInputPassword1">Пароль</label>
                                     <input type="password" value="{{ $user['password'] }}" name="password" class="form-control" placeholder="Введите пароль"required>
                                 </div>
-
+                                @if(!$user->hasRole('admin'))
                                 <div class="form-group">
-                                    <label class="btn btn-outline-primary mr-3" for="rolecheck">Сделать Админом</label>
+                                    <label class="btn btn-outline-primary mr-3" for="rolecheck">Назначить администратором</label>
                                     <input type="checkbox" name="role" class="btn-check" id="rolecheck" autocomplete="off">
                                 </div>
+                                @else
+                                    <div class="form-group">
+                                        <label class="btn btn-outline-primary mr-3" for="rolecheck">Убрать права администратора</label>
+                                        <input type="checkbox" name="role" class="btn-check" id="rolecheck" autocomplete="off">
+                                    </div>
+                                @endif
 
 
                                 {{--<div class="btn-group">

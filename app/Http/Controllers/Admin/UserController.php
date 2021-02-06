@@ -89,8 +89,12 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = $request->password;
 
-        if ($request->role == 'on') {
+        if ($request->role == 'on' && !$user->hasRole('admin')) {
+            $user->removeRole('user');
             $user->assignRole('admin');
+        }else{
+            $user->removeRole('admin');
+            $user->assignRole('user');
         }
         $user->save();
 
@@ -108,4 +112,5 @@ class UserController extends Controller
     {
         //
     }
+
 }
