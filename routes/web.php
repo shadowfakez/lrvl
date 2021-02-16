@@ -28,3 +28,5 @@ Route::middleware(['role:admin'])->prefix('admin_panel')->group(function () {
    Route::resource('user', \App\Http\Controllers\Admin\UserController::class);
 
 });
+
+Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');

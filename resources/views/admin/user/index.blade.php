@@ -25,6 +25,9 @@
                         <thead>
                         <tr>
                             <th style="width: 1%">
+                                №
+                            </th>
+                            <th style="width: 1%">
                                 ID
                             </th>
                             <th>
@@ -40,11 +43,16 @@
                             @foreach($users as $user)
                             <tr>
                                 <td>
+                                    {{ $loop->iteration }}
+                                </td>
+                                <td>
                                     {{ $user->id }}
                                 </td>
                                 <td>
-                                    {{ $user->name }}@if($user->hasRole('admin'))
-                                        <span class="badge bg-success"> admin </span>@endif
+                                    {{ $user->name }}
+                                    @if($user->hasRole('admin'))
+                                        <span class="badge bg-success"> admin </span>
+                                    @endif
                                 </td>
                                 <td>
                                     {{ $user->email }}

@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <h2><a href="http://lrvl/admin_panel">Админ-панель</a></h2>
+                    <h2><a href="/admin_panel">Админ-панель</a></h2>
                 </div>
             </div>
         </div>
