@@ -26,14 +26,14 @@ class RolesAndPermissionsSeeder extends Seeder
 
         DB::table('users')->insert([
             'name' => "user",
-            'email' => 'user@user',
-            'password' => 'user',
+            'email' => 'user@user.user',
+            'password' => Hash::make('user'),
         ]);
 
         DB::table('users')->insert([
             'name' => "admin",
-            'email' => 'admin@admin',
-            'password' => 'admin',
+            'email' => 'admin@admin.admin',
+            'password' => Hash::make('admin'),
         ]);
 
         DB::table('model_has_roles')->insert([
