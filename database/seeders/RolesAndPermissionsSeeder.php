@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -21,33 +22,35 @@ class RolesAndPermissionsSeeder extends Seeder
         // Reset cached roles and permissions
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $role = Role::create(['name' => 'user']);
-        $role = Role::create(['name' => 'admin']);
+        $role1 = Role::create(['name' => 'admin']);
+        $role2 = Role::create(['name' => 'supervisor']);
+        $role3 = Role::create(['name' => 'manager']);
+        $role4 = Role::create(['name' => 'user']);
 
-        DB::table('users')->insert([
-            'name' => "user",
-            'email' => 'user@user.user',
-            'password' => Hash::make('user'),
-        ]);
 
-        DB::table('users')->insert([
+        $user = User::factory()->create([
             'name' => "admin",
             'email' => 'admin@admin.admin',
             'password' => Hash::make('admin'),
+            ]);
+
+        $user->assignRole($role1);
+
+        $user = User::factory()->create([
+            'name' => "supervisor",
+            'email' => 'supervisor@supervisor.supervisor',
+            'password' => Hash::make('supervisor'),
         ]);
 
-        DB::table('model_has_roles')->insert([
-            'role_id' => '1',
-            'model_type' => 'App\Models\User',
-            'model_id' => '1',
+        $user->assignRole($role2);
+
+        $user = User::factory()->create([
+            'name' => "manager",
+            'email' => 'manager@manager.manager',
+            'password' => Hash::make('manager'),
         ]);
 
-        DB::table('model_has_roles')->insert([
-            'role_id' => '2',
-            'model_type' => 'App\Models\User',
-            'model_id' => '2',
-        ]);
-
+        $user->assignRole($role3);
 
 
     }

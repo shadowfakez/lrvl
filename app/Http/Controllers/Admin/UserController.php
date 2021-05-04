@@ -16,7 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('created_at')->get();
+        $users = User::orderBy('created_at')->paginate(5);
         return view('admin.user.index',[
             'users' => $users,
         ]);
@@ -29,7 +29,11 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.user.create');
+        $role = Role::all();
+
+        return view('admin.user.create', [
+            'role' => $role,
+        ]);
     }
 
     /**
@@ -44,9 +48,10 @@ class UserController extends Controller
         $new_user->name = $request->name;
         $new_user->email = $request->email;
         $new_user->password = $request->password;
+        $new_user->assignRole($request->role);
         $new_user->save();
 
-        return redirect()->back()->withSuccess('Новый пользователь успешно добавлен');
+        return redirect()->route('user.index')->withSuccess('Новый пользователь успешно добавлен');
     }
 
     /**
@@ -88,18 +93,15 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
+        $user->removeRole('user');
+        $user->removeRole('manager');
+        $user->removeRole('supervisor');
+        $user->removeRole('admin');
+        $user->assignRole($request->role);
 
-        if ($request->role == 'on' && !$user->hasRole('admin')) {
-            $user->removeRole('user');
-            $user->assignRole('admin');
-        }else{
-            $user->removeRole('admin');
-            $user->assignRole('user');
-        }
         $user->save();
 
-
-        return redirect()->back()->withSuccess('Пользователь успешно обновлен');
+        return redirect()->route('user.index', $user)->with('success', 'Пользователь успешно обновлен');
     }
 
     /**
@@ -110,7 +112,12 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->removeRole('user');
+        $user->removeRole('manager');
+        $user->removeRole('supervisor');
+        $user->removeRole('admin');
+        $user->delete();
+        return redirect()->route('user.index')->with('success', 'пользователь удален');
     }
 
 }
