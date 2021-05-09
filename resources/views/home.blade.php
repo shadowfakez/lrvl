@@ -2,7 +2,7 @@
 
 @section('content')
 
-
+<div class="p-2">
   <div class="body">
     @foreach($posts as $post)
       <div class="p-4 rounded">
@@ -31,5 +31,5 @@
       </div>
     </div>
   </div>
-
+</div>
 @endsection

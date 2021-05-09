@@ -18,18 +18,14 @@ use Illuminate\Support\Facades\Route;
 });*/
 
 Route::get('/', [\App\Http\Controllers\PostController::class, 'index'])->name('home');
-Route::get('/{post}', [\App\Http\Controllers\PostController::class, 'show'])->name('show-post');
 
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
-('home');
-
 Route::middleware(['role:admin'])->prefix('admin_panel')->group(function () {
-    Route::get('/', [\App\Http\Controllers\Admin\HomeController::class, 'index'])->name('homeAdmin');
+    Route::get('/home', [\App\Http\Controllers\Admin\HomeController::class, 'index'])->name('homeAdmin');
 
-   Route::resource('user', \App\Http\Controllers\Admin\UserController::class);
+    Route::resource('user', \App\Http\Controllers\Admin\UserController::class);
 
 });
 
@@ -37,6 +33,14 @@ Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->name(
 
 Route::middleware(['role:admin'])->prefix('cabinet')->group
 (function () {
-    Route::get('/', [\App\Http\Controllers\Cabinet\HomeController::class, 'index'])->name('cabinet');
+    Route::get('/home', [\App\Http\Controllers\Cabinet\HomeController::class, 'index'])->name('cabinet');
     Route::resource('posts', \App\Http\Controllers\Cabinet\PostController::class);
 });
+
+Route::middleware(['role:admin'])->group
+(function () {
+    Route::resource('tasks', \App\Http\Controllers\Cabinet\TaskController::class);
+});
+
+
+Route::get('/{post}', [\App\Http\Controllers\PostController::class, 'show'])->name('show-post');
