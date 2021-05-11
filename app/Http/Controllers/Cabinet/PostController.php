@@ -81,12 +81,11 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        $post->title = $request->title;
-        $post->description  = $request->description;
-        $post->content  = $request->content;
+        $post['title'] = $request['title'];
+        $post['description']  = $request['description'];
+        $post['content']  = $request['content'];
 
         $post->save();
-
 
         return redirect()->route('posts.index', $post)->with('success', 'Пост обновлен');
     }

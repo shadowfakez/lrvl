@@ -18,9 +18,12 @@ use Illuminate\Support\Facades\Route;
 });*/
 
 Route::get('/', [\App\Http\Controllers\PostController::class, 'index'])->name('home');
+Route::get('/posts', [\App\Http\Controllers\PostController::class, 'showPost'])->name('show-post');
+Route::get('/tasks', [\App\Http\Controllers\PostController::class, 'showTask'])->name('show-task');
 
 
 Auth::routes();
+Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
 
 Route::middleware(['role:admin'])->prefix('admin_panel')->group(function () {
     Route::get('/home', [\App\Http\Controllers\Admin\HomeController::class, 'index'])->name('homeAdmin');
@@ -29,18 +32,12 @@ Route::middleware(['role:admin'])->prefix('admin_panel')->group(function () {
 
 });
 
-Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
-
 Route::middleware(['role:admin'])->prefix('cabinet')->group
 (function () {
     Route::get('/home', [\App\Http\Controllers\Cabinet\HomeController::class, 'index'])->name('cabinet');
     Route::resource('posts', \App\Http\Controllers\Cabinet\PostController::class);
-});
-
-Route::middleware(['role:admin'])->group
-(function () {
     Route::resource('tasks', \App\Http\Controllers\Cabinet\TaskController::class);
 });
 
 
-Route::get('/{post}', [\App\Http\Controllers\PostController::class, 'show'])->name('show-post');
+//Route::get('/posts/{post}', [\App\Http\Controllers\PostController::class, 'show'])->name('show-post');

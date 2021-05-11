@@ -19,7 +19,7 @@ class CreateTasksTable extends Migration
             $table->string('subject');
             $table->text('task');
             $table->string('author');
-            $table->string('executors');
+            $table->text('executors');
             $table->string('status');
             $table->timestamps();
         });

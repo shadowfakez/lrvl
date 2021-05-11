@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Task;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -14,8 +15,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderBy('id', 'desc')->paginate(3);
-        return view('home', compact('posts'));
+
+        return view('home');
     }
 
     /**
@@ -24,9 +25,15 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function showPost(Post $post)
     {
-        return view('show', compact('post'));
+        $posts = Post::orderBy('id', 'desc')->paginate(3);
+        return view('posts', compact('posts'));
     }
 
+    public function showTask(Task $task)
+    {
+        $tasks = Task::orderBy('id', 'desc')->paginate(3);
+        return view('tasks', compact('tasks'));
+    }
 }

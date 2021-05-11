@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Cabinet;
 
 use App\Http\Controllers\Controller;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -16,7 +18,7 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::orderBy('created_at')->paginate(3);
-        return view('task.index', compact('tasks'));
+        return view('cabinet.task.index', compact('tasks'));
     }
 
     /**
@@ -26,7 +28,8 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        $users = User::all();
+        return view('cabinet.task.create', compact('users'));
     }
 
     /**
@@ -37,7 +40,20 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'subject' => 'required',
+            'task' => 'required',
+        ]);
+        $data = $request->all();
+        $data['author'] = Auth::user()->name;
+        $data['status'] = 'active';
+        $exec = $request['executors'];
+        $data['executors'] = implode(', ', $exec);
+
+        Task::create($data);
+
+        return redirect()->route('tasks.index')->with('success', 'Задача добавлена');
     }
 
     /**

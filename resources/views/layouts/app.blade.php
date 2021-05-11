@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
     <link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet"> <!--Replace with your tailwind.css once created-->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 </head>
@@ -27,8 +28,12 @@
             <span class="ml-3 text-xl">Home</span>
         </a>
         <nav class="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
-            <a class="mr-5 hover:text-gray-900">First Link</a>
-            <a class="mr-5 hover:text-gray-900">Second Link</a>
+            @role('admin')
+            <a class="mr-5 hover:text-gray-900" href="{{ route('homeAdmin') }}">Admin-panel</a>
+            @endrole
+            @hasanyrole('admin|supervisor|manager')
+            <a class="mr-5 hover:text-gray-900" href="{{ route('cabinet') }}">Cabinet</a>
+            @endrole
             <a class="mr-5 hover:text-gray-900">Third Link</a>
             <a class="mr-5 hover:text-gray-900">Fourth Link</a>
         </nav>
@@ -115,7 +120,7 @@
                         <span class="flex font-medium text-sm text-gray-400 px-4 my-4 uppercase">Projects</span>
                     </li>
                     <li class="my-px">
-                        <a href="#"
+                        <a href="{{ route('show-post') }}"
                            class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100">
                             <span class="flex items-center justify-center text-lg text-gray-400">
                                 <svg fill="none"
@@ -128,11 +133,11 @@
                                     <path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
                                 </svg>
                             </span>
-                            <span class="ml-3">Manager</span>
+                            <span class="ml-3">Posts</span>
                         </a>
                     </li>
                     <li class="my-px">
-                        <a href="{{ route('tasks.index') }}"
+                        <a href="{{ route('show-task') }}"
                            class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100">
                             <span class="flex items-center justify-center text-lg text-gray-400">
                                 <svg fill="none"
@@ -259,7 +264,7 @@
                 </ul>
             </div>
 
-    <div class="container">
+    <div class="container border border-gray-200 rounded-lg">
         @yield('content')
     </div>
 

@@ -9,5 +9,18 @@ class Task extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'subject', 'task', 'author', 'executor', 'status'];
+    protected $fillable = ['title', 'subject', 'task', 'author', 'executors', 'status'];
+/*
+
+    public function setExecutorsAttribute($value)
+    {
+        $this->attributes['executors'] = json_encode($value);
+    }
+
+
+    public function getExecutorsAttribute($value)
+    {
+        return $this->attributes['executors'] = json_decode($value);
+    }
+*/
 }
